@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>4-Word Wordle</title>
+</head>
+<body>
+    <div class="bg-black h-screen grid gap-2">
+        <div class="flex flex-col items-center justify-center mt-4 mb-2 gap-2">
+            <h1 class="text-white text-5xl font-extrabold tracking-wide">4-Word Wordle</h1>
+            <button id="restart-btn" title="Restart Game" class="mt-2 px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-600 transition text-white font-semibold text-lg">
+            RESTART
+            </button>
+        </div>
+        <div class="Board-container flex items-center justify-center">
+            <div id="board" class="Board grid grid-rows-5 gap-2">
+                <div class="Row flex justify-center gap-2">
+                    <div id="cell-0-0" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-0-1" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-0-2" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-0-3" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                </div>
+                <div class="Row flex justify-center gap-2">
+                    <div id="cell-1-0" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-1-1" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-1-2" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-1-3" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                </div>
+                <div class="Row flex justify-center gap-2">
+                    <div id="cell-2-0" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-2-1" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-2-2" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-2-3" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                </div>
+                <div class="Row flex justify-center gap-2">
+                    <div id="cell-3-0" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-3-1" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-3-2" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-3-3" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                </div>
+                <div class="Row flex justify-center gap-2">
+                    <div id="cell-4-0" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-4-1" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-4-2" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                    <div id="cell-4-3" class="Cell border border-gray-400 w-13 h-13 flex items-center justify-center text-xl font-bold"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Decreased gap between board and keyboard -->
+        <div class="Keyboard-container flex items-center justify-center mt-2">
+            <div class="Keybord grid grid-rows-3 gap-2">
+                <div class="Keyboard-row flex justify-center gap-1">
+                    <button id="key-Q" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">Q</button>
+                    <button id="key-W" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">W</button>
+                    <button id="key-E" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">E</button>
+                    <button id="key-R" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">R</button>
+                    <button id="key-T" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">T</button>
+                    <button id="key-Y" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">Y</button>
+                    <button id="key-U" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">U</button>
+                    <button id="key-I" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">I</button>
+                    <button id="key-O" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">O</button>
+                    <button id="key-P" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">P</button>
+                </div>
+                <div class="Keyboard-row flex justify-center gap-1">
+                    <button id="key-A" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">A</button>
+                    <button id="key-S" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">S</button>
+                    <button id="key-D" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">D</button>
+                    <button id="key-F" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">F</button>
+                    <button id="key-G" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">G</button>
+                    <button id="key-H" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">H</button>
+                    <button id="key-J" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">J</button>
+                    <button id="key-K" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">K</button>
+                    <button id="key-L" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">L</button>
+                </div>
+                <div class="Keyboard-row flex justify-center gap-1">
+                    <button id="key-ENTER" class="Key bg-gray-400 w-[65px] h-[59px] rounded-lg text-base font-bold">ENTER</button>
+                    <button id="key-Z" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">Z</button>
+                    <button id="key-X" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">X</button>
+                    <button id="key-C" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">C</button>
+                    <button id="key-V" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">V</button>
+                    <button id="key-B" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">B</button>
+                    <button id="key-N" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">N</button>
+                    <button id="key-M" class="Key bg-gray-400 w-[43px] h-[59px] rounded-lg text-xl font-bold">M</button>
+                    <button id="key-BACKSPACE" class="Key bg-gray-400 w-[65px] h-[59px] rounded-lg text-2xl font-bold flex items-center justify-center">&#9003;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Example restart logic: reloads the page
+        document.getElementById('restart-btn').addEventListener('click', function() {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>
