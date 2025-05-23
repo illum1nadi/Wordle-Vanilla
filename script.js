@@ -23,7 +23,7 @@ function updateBoard() {
         console.log(cell)
         if (cell) {
             cell.textContent = currentGuess[i] || '';
-            console.log("text content is", cell.textContent);
+            console.log("the text content is", cell.textContent);
             cell.className = 'Cell border border-gray-400 w-[52px] h-[52px] flex items-center justify-center text-xl font-bold text-white';
         }
     }
@@ -35,7 +35,12 @@ function evaluateGuess() {
 
     for (let letter of targetWord) {
         //If exists then use it else set it to zero used logical or operator to do it.
-        letterCount[letter] = (letterCount[letter] || 0) + 1;
+        if(letterCount[letter] === undefined) {
+            letterCount[letter] = 0;
+        }
+        else {
+            letterCount[letter]++;
+        }
     }
 
     for (let i = 0; i < 4; i++) {
@@ -58,7 +63,7 @@ function evaluateGuess() {
         }
     }
 
-    //Assigned style based on each cells category.
+    //assigned style based on each cells category.
     for (let i = 0; i < 4; i++) {
         const cell = document.getElementById(`cell-${currentAttempt}-${i}`);
         if (!cell) continue;
@@ -69,12 +74,12 @@ function evaluateGuess() {
             cell.classList.add('bg-yellow-400', 'text-white');
         } else {
             cell.classList.add('bg-gray-400', 'text-white');
-            absentLetters.add(currentGuess[i]);  // Track absent letters here
+            absentLetters.add(currentGuess[i]);  //Tracking absent letters in this set.
             const keyBtn = document.getElementById(`key-${currentGuess[i]}`);
             if (keyBtn) {
                 keyBtn.classList.remove('bg-gray-400');
                 keyBtn.classList.add('bg-gray-700', 'text-white');
-                keyBtn.disabled = true;  // Disable absent letter key
+                keyBtn.disabled = true;  //removing the event listener of that key.
                 keyBtn.style.cursor = 'not-allowed';
             }
         }
@@ -101,7 +106,7 @@ function evaluateGuess() {
 function handleKeyPress(key) {
     if (gameOver) return;
     if (absentLetters.has(key)) {
-        return;  // ignoring this keypress as no listener is present.
+        return;  //ignoring this keypress as no listener is present.
     }
     console.log("Key pressed:", key);
 
@@ -114,7 +119,7 @@ function handleKeyPress(key) {
     } else if (key === 'ENTER') {
         if (currentGuess.length === 4) {
             if (!wordList.includes(currentGuess)) {
-                alert('Not a valid word!');
+                alert(`${currentGuess} is not a valid word!`);
                 return;
             }
             evaluateGuess();
@@ -132,7 +137,7 @@ function resetGame() {
     currentAttempt = 0;
     currentGuess = '';
     gameOver = false;
-    absentLetters.clear(); // Also clear absent letters set on reset
+    absentLetters.clear(); //clearing the set of absent letters upon reset.
 
     for (let r = 0; r < 5; r++) {
         for (let c = 0; c < 4; c++) {
@@ -144,9 +149,9 @@ function resetGame() {
         }
     }
 
-    // Reset all keyboard buttons to normal state
+    //Reset all keyboard buttons to normal state which I disabled before.
     document.querySelectorAll('.Key').forEach(button => {
-        button.disabled = false; // Enable all keys on reset
+        button.disabled = false; 
         button.classList.remove('bg-gray-700', 'text-white');
         button.classList.add('bg-gray-400');
         button.style.cursor = 'pointer';
