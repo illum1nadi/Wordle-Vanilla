@@ -4,6 +4,8 @@ let currentAttempt = 0;
 let currentGuess = '';
 let gameOver = false;
 let absentLetters = new Set();
+let guessTillNow = [];
+let misplacedLetters = [];
 
 //Fetched it from the url provided, using raw they were in the form of text using split with the line delimiter extracted the word list.
 async function fetchWordList() {
@@ -46,6 +48,7 @@ function evaluateGuess() {
     for (let i = 0; i < 4; i++) {
         if (currentGuess[i] === targetWord[i]) {
             result[i] = 'correct';
+            guessTillNow[i] = currentGuess[i];
             letterCount[currentGuess[i]]--;
         }
     }
@@ -58,6 +61,7 @@ function evaluateGuess() {
         if (letterCount[letter]) {
             result[i] = 'misplaced';
             letterCount[letter]--;
+            misplacedLetters.push(letter);
         } else {
             result[i] = 'absent';
         }
@@ -79,8 +83,8 @@ function evaluateGuess() {
             if (keyBtn) {
                 keyBtn.classList.remove('bg-gray-400');
                 keyBtn.classList.add('bg-gray-700', 'text-white');
-                keyBtn.disabled = true;  //removing the event listener of that key.
-                keyBtn.style.cursor = 'not-allowed';
+                //keyBtn.disabled = true;  //removing the event listener of that key.
+                //keyBtn.style.cursor = 'not-allowed';
             }
         }
     }
@@ -105,9 +109,9 @@ function evaluateGuess() {
 
 function handleKeyPress(key) {
     if (gameOver) return;
-    if (absentLetters.has(key)) {
-        return;  //ignoring this keypress as no listener is present.
-    }
+    // if (absentLetters.has(key)) {
+    //     return;  //ignoring this keypress as no listener is present.
+    // }
     console.log("Key pressed:", key);
 
     if (key === 'BACKSPACE') {
@@ -118,6 +122,32 @@ function handleKeyPress(key) {
         }
     } else if (key === 'ENTER') {
         if (currentGuess.length === 4) {
+            //Checking for the presence of correct letters.
+            console.log(guessTillNow)
+            for(let i = 0; i < 4; i++) {
+                if(guessTillNow[i]){
+                    if(guessTillNow[i] !== currentGuess[i]) {
+                        alert(`You have to use ${guessTillNow[i]} at position ${i + 1}`);
+                        return;
+                    }
+                }
+                
+            }
+
+            //Checking for the presence of misplaced letters.
+            let flag = false;
+            for(char in misplacedLetters) {
+                if(currentGuess.includes(i)) {
+                    continue;
+                }
+                else {
+                    flag = true;
+                    alert(`You have to use ${char}`);
+                    return;
+                    break;
+                }
+            }
+
             if (!wordList.includes(currentGuess)) {
                 alert(`${currentGuess} is not a valid word!`);
                 return;
@@ -137,7 +167,7 @@ function resetGame() {
     currentAttempt = 0;
     currentGuess = '';
     gameOver = false;
-    absentLetters.clear(); //clearing the set of absent letters upon reset.
+    // absentLetters.clear(); //clearing the set of absent letters upon reset.
 
     for (let r = 0; r < 5; r++) {
         for (let c = 0; c < 4; c++) {
