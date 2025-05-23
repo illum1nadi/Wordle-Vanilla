@@ -121,9 +121,12 @@ function handleKeyPress(key) {
             if (cell) cell.textContent = '';
         }
     } else if (key === 'ENTER') {
+        console.log("Current guess length:", currentGuess.length);
         if (currentGuess.length === 4) {
+            console.log("aditya");
             //Checking for the presence of correct letters.
             console.log(guessTillNow)
+            console.log(absentLetters)
             for(let i = 0; i < 4; i++) {
                 if(guessTillNow[i]){
                     if(guessTillNow[i] !== currentGuess[i]) {
@@ -133,18 +136,29 @@ function handleKeyPress(key) {
                 }
                 
             }
+            
 
             //Checking for the presence of misplaced letters.
             let flag = false;
             for(char in misplacedLetters) {
-                if(currentGuess.includes(i)) {
+                if(currentGuess.includes(char)) {
                     continue;
                 }
                 else {
                     flag = true;
                     alert(`You have to use ${char}`);
                     return;
-                    break;
+                }
+            }
+            
+            //To not allow absent letters to be used
+            for(let char of absentLetters) {
+                // console.log("degub");
+                // console.log("debug absent letters are", absentLetters);
+                if(currentGuess.includes(char)) {
+                    flag = true;
+                    alert(`You cannot use ${char} as it is not present in the word.`);
+                    return;
                 }
             }
 
@@ -167,7 +181,7 @@ function resetGame() {
     currentAttempt = 0;
     currentGuess = '';
     gameOver = false;
-    // absentLetters.clear(); //clearing the set of absent letters upon reset.
+    absentLetters.clear(); //clearing the set of absent letters upon reset.
 
     for (let r = 0; r < 5; r++) {
         for (let c = 0; c < 4; c++) {
